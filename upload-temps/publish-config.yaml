@@ -1,0 +1,12 @@
+#测试
+ip: 101.37.23.183
+username: root
+password: ecs1qazcde3!@#
+excludes:
+  - .git
+  - .idea
+  - log
+  - node_modules
+  - upload-temps
+  - .zip
+targetPath: /usr/local/node-project/haiwainodercms

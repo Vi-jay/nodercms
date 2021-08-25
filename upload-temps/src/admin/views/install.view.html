@@ -1,0 +1,193 @@
+<div class="install">
+  <img class="brand" src="/assets/admin/images/logo-lg.png" srcset="/assets/admin/images/logo-lg@2x.png 2x">
+  <div ng-class="{ 'lg': page === 'license', 'md': page === 'database' || page === 'siteInfo' || page === 'installed', 'sm': page === 'installing' }" class="content lg">
+    <div ng-show="page === 'license'" class="panel panel-default ng-hide install-panel">
+      <div class="panel-body">
+        <div class="page-header">
+          <div class="heading">安装许可协议</div>
+        </div>
+        <hr>
+        <div class="well scrollable">
+          <p>感谢您选择 NoderCMS 产品。希望我们的努力能为您提供一个高效快速和强大的网站解决方案。</p>
+          <p>NoderCMS 全称为 NoderCMS 内容管理系统。
+          NoderCMS 内容管理系统的官方网站为 http://www.nodercms.com，是 NoderCMS 产品的开发商，依法独立拥有 NoderCMS 产品著作权。
+          NoderCMS 著作权受到法律和国际公约保护。使用者：无论个人或组织、盈利与否、用途如何（包括以学习和研究为目的），均需仔细阅读本协议，在理解、同意、并遵守本协议的全部条款后，方可开始使用 NoderCMS 软件。
+          本授权协议适用且仅适用于 NoderCMS 产品，NoderCMS所有方拥有对本授权协议的最终解释权。</p>
+          <h4>协议许可的权利</h4>
+          <p>您可以在完全遵守本最终用户授权协议的基础上，将本软件应用于个人、商业用途，而不必支付软件版权授权费用。
+          您可以在协议规定的约束和限制范围内修改 NoderCMS 源代码或界面风格以适应您的网站要求。
+          您拥有使用本软件构建的网站中全部资料、文章及相关信息的所有权，并独立承担与文章内容的相关法律义务。</p>
+          <h4>协议规定的约束和限制</h4>
+          <p>Nodercms 使用开源协议 MIT 对代码进行了开源，使用本 NoderCMS 前，请确保遵守 MIT 协议</p>
+        </div>
+        <hr>
+        <button ng-click="page = 'database'" type="button" class="btn btn-primary pull-right">我已阅读许可并同意</button>
+      </div>
+    </div>
+    <div ng-show="page === 'database'" class="panel panel-default ng-hide install-panel">
+      <div class="panel-body">
+        <form ng-submit="testDatabase()" class="form-horizontal" id="databaseForm" name="databaseForm" novalidate>
+          <div class="page-header">
+            <div class="heading">MongoDB 数据库配置</div>
+          </div>
+          <hr>
+          <div ng-class="{ 'has-error': databaseForm.databaseHost.$touched && databaseForm.databaseHost.$invalid }" class="form-group">
+            <label for="databaseHost" class="col-sm-3 control-label">* 数据库主机：</label>
+            <div class="col-sm-9">
+              <input ng-model="databaseHost" ng-disabled="transmitting" ng-pattern="/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$|^localhost$|^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/" class="form-control" id="databaseHost" type="text" name="databaseHost" aria-describedby="databaseHostHelpBlock" placeholder="请输入数据库主机" required>
+              <p ng-show="databaseForm.databaseHost.$touched && databaseForm.databaseHost.$invalid" class="help-block">主机应为为 IP 地址或 localhost</p>
+              <span id="databaseHosteHelpBlock" class="help-block">如果数据库与网站是同一台服务器，默认 localhost 即可</span>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': databaseForm.databasePort.$touched && databaseForm.databasePort.$invalid }" class="form-group">
+            <label for="databasePort" class="col-sm-3 control-label">* 数据库端口：</label>
+            <div class="col-sm-9">
+              <input ng-model="databasePort" ng-disabled="transmitting" class="form-control" id="databasePort" type="number" min="0" max="65535" name="databasePort" placeholder="请输入数据库端口" required>
+              <p ng-show="databaseForm.databasePort.$touched && databaseForm.databasePort.$invalid" class="help-block">端口应为 0 ~ 65535 之间</p>
+              <span id="databasePortHelpBlock" class="help-block">如果没有修改过数据库端口，默认 27017 即可</span>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': databaseForm.database.$touched && databaseForm.database.$invalid }" class="form-group">
+            <label for="database" class="col-sm-3 control-label">* 数据库名：</label>
+            <div class="col-sm-9">
+              <input ng-model="database" ng-disabled="transmitting" class="form-control" id="database" type="text" name="database" placeholder="请输入数据库名" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': databaseForm.databaseUser.$touched && databaseForm.databaseUser.$invalid }" class="form-group">
+            <label for="databaseUser" class="col-sm-3 control-label">* 数据库用户名：</label>
+            <div class="col-sm-9">
+              <input ng-model="databaseUser" ng-disabled="transmitting" class="form-control" id="databaseUser" type="text" name="databaseUser" placeholder="请输入数据库用户名" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': databaseForm.databasePassword.$touched && databaseForm.databasePassword.$invalid }" class="form-group">
+            <label for="databasePassword" class="col-sm-3 control-label">* 数据库密码：</label>
+            <div class="col-sm-9">
+              <input ng-model="databasePassword" ng-disabled="transmitting" class="form-control" id="databasePassword" type="password" name="databasePassword" placeholder="请输入数据库用户密码" required>
+            </div>
+          </div>
+          <div ng-show="databaseError && !transmitting" class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> 数据库连接失败，请检查是否填写正确或联系数据库管理员</div>
+          <hr>
+          <div class="pull-right">
+            <button ng-click="page = 'license'" type="button" class="btn btn-default">上一步</button>
+            <button ng-disabled="transmitting || databaseForm.$invalid" type="submit" form="databaseForm" class="btn btn-primary">连接数据库</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div ng-show="page === 'siteInfo'" class="panel panel-default ng-hide install-panel">
+      <div class="panel-body">
+        <form ng-submit="submitInstall()" class="form-horizontal" id="installForm" name="installForm" novalidate>
+          <div class="page-header">
+            <div class="heading">初始化设置</div>
+          </div>
+          <hr>
+          <div ng-class="{ 'has-error': installForm.title.$touched && installForm.title.$invalid }" class="form-group">
+            <label for="title" class="col-sm-3 control-label">* 网站标题：</label>
+            <div class="col-sm-9">
+              <input ng-model="title" ng-disabled="transmitting" class="form-control" id="title" type="text" name="title" placeholder="请输入网站标题" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="theme" class="col-sm-3 control-label">主题：</label>
+            <div class="col-sm-9">
+              <select ng-model="theme" ng-disabled="transmitting" ng-options="theme.directory as theme.name for theme in themes" ng-disabled="transmitting" name="theme" id="theme" class="form-control" required></select>
+            </div>
+          </div>
+          <div ng-show="themeError && !transmitting" class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> 主题读取失败，请检查 /public/themes/ 下主题目录完整性 <a ng-click="loadThemes()" role="button">重新读取</a></div>
+          <!-- 下一版本 -->
+          <!--<div class="form-group">-->
+            <!--<label for="case" class="col-sm-3 control-label">导入示例数据：</label>-->
+            <!--<div class="col-sm-9">-->
+              <!--<div class="btn-group" role="group" id="case">-->
+                <!--<button ng-click="case = true" ng-class="{ active: case === true }" class="btn btn-default" type="button">是</button>-->
+                <!--<button ng-click="case = false" ng-class="{ active: case === false }" class="btn btn-default" type="button">否</button>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <hr>
+          <div ng-class="{ 'has-error': installForm.email.$touched  && installForm.email.$invalid }" class="form-group">
+            <label for="email" class="col-sm-3 control-label">* Email：</label>
+            <div class="col-sm-9">
+              <input ng-model="email" ng-pattern="/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/" type="email" class="form-control text-lowercase" id="email" name="email" placeholder="请输入 Email 地址" required>
+              <p ng-show="installForm.email.$touched && installForm.email.$invalid && installForm.email.$error.pattern" class="help-block">请正确输入 Email</p>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': installForm.nickname.$touched && installForm.nickname.$invalid }" class="form-group">
+            <label for="nickname" class="col-sm-3 control-label">* 昵称：</label>
+            <div class="col-sm-9">
+              <input ng-model="nickname" type="text" class="form-control" id="nickname" name="nickname" placeholder="请输入昵称" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': installForm.password.$touched && installForm.password.$invalid }" class="form-group">
+            <label for="password" class="col-sm-3 control-label">* 密码：</label>
+            <div class="col-sm-9">
+              <input ng-model="password" ng-minlength="6" class="form-control" id="password" name="password" type="password" placeholder="请输入密码" required>
+              <p ng-show="installForm.password.$touched && installForm.password.$invalid && installForm.password.$error.minlength" class="help-block">密码需为 6 位数以上</p>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': installForm.confirmpwd.$touched && installForm.confirmpwd.$invalid}" class="form-group">
+            <label for="confirmpwd" class="col-sm-3 control-label">* 确认密码：</label>
+            <div class="col-sm-9">
+              <input ng-model="confirmpwd" nd-same="#password" class="form-control" id="confirmpwd" name="confirmpwd" type="password" placeholder="请再次输入密码" required>
+              <p ng-show="installForm.confirmpwd.$touched && installForm.confirmpwd.$invalid && installForm.confirmpwd.$error.same" class="help-block">两次密码输入不一致</p>
+            </div>
+          </div>
+          <hr ng-show="siteInfoError && !transmitting">
+          <div ng-show="siteInfoError && !transmitting" class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> 安装请求失败，请尝试重启服务器与数据库并重新安装</div>
+          <hr>
+          <div class="pull-right">
+            <button ng-click="page = 'database'" type="button" class="btn btn-default">上一步</button>
+            <button ng-disabled="transmitting || installForm.$invalid" type="submit" form="installForm" class="btn btn-primary">安装</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div ng-show="page === 'installing'" class="panel panel-default ng-hide install-panel">
+      <div class="panel-body">
+          <div class="page-header">
+            <div class="heading">安装中</div>
+          </div>
+          <hr>
+          <br>
+          <div class="text-center text-installing"><i class="fa fa-refresh fa-spin fa-3x"></i></div>
+          <br>
+          <br>
+      </div>
+    </div>
+    <div ng-show="page === 'installed'" class="panel panel-default ng-hide install-panel">
+      <div class="panel-body">
+        <div class="page-header">
+          <div class="heading">安装完成</div>
+        </div>
+        <hr>
+        <h3 class="text-center text-welcome">欢迎使用 NoderCMS</h3>
+        <h5 class="text-center text-muted">本软件为开源软件，项目的发展离不开你的支持，可以向作者打赏来鼓励一下作者 : )</h5>
+        <br>
+        <div class="row sponsor">
+          <div class="col-md-6">
+            <div class="thumbnail weixin">
+              <img src="/assets/admin/images/sponsor/weixin.png">
+              <div class="caption">
+                <h3>微信打赏</h3>
+                <p>恭喜发财</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="thumbnail alipay">
+              <img src="/assets/admin/images/sponsor/alipay.jpg">
+              <div class="caption">
+                <h3>支付宝打赏</h3>
+                <p>大吉大利</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <button ui-sref="signIn" type="button" class="btn btn-primary center-block">进入后台管理</button>
+        <br>
+      </div>
+    </div>
+  </div>
+  <footer>Powered by <a href="http://www.nodercms.com" title="轻量级CMS内容管理系统" target="_blank">NoderCMS</a></footer>
+</div>
